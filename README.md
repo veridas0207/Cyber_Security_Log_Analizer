@@ -1,32 +1,32 @@
-# 日誌正規化工具 (Log Normalization Strategy Toolkit)
+# 網路安全日誌分析工具 (Cyber Security Log Analyzer)
 
-本專案提供 Python 腳本，依照不同的分析需求將系統日誌正規化。
-This project provides a Python script to normalize system logs based on different analysis requirements.
+本專案提供一套完整的 Python 工具鏈，用於將多來源系統日誌正規化，並進行深度的安全威脅偵測與異常行為分析。
+This project provides a comprehensive Python toolkit to normalize multi-source system logs and perform in-depth security threat detection and anomaly analysis.
 
-## 正規化策略說明 / Normalization Strategies
+## 核心功能 / Core Features
 
-### 1. 時間軸策略 (Timeline Strategy) -> `strategy_timeline.csv`
-- **目的 (Purpose)**: 將所有分散的日誌整合成一個統一的時間軸。
-  Integrate all scattered logs into a unified timeline.
-- **優點 (Pros)**: 適用於事件回溯，查看特定時間點前後的連動行為。
-  Ideal for incident retracing and analyzing sequence of events.
-- **輸出包含 (Columns)**:
-    - `timestamp`: 事件發生時間 / Event time.
-    - `log_source`: 原始日誌類別 / Original log source.
-    - `user`: 統合後的身分欄位 / Consolidated identity.
+### 1. 自動化整合執行 (Integrated Runner) - `main.py`
+一鍵完成所有分析流程，包含日誌正規化與資安威脅偵測。
 
-### 2. 使用者行為策略 (User Activity Strategy) -> `strategy_user_activity.csv`
-- **目的 (Purpose)**: 以使用者為核心，彙整每位使用者的數位足跡。
-  Summarize digital footprints for each user.
-- **優點 (Pros)**: 適用於內部威脅分析與基準行為定義。
-  Ideal for Insider Threat Detection and user profiling.
-- **輸出包含 (Columns)**:
-    - `user`: 使用者識別碼 / User ID.
-    - `total_events`: 總事件數 / Total events.
-    - `first_seen` / `last_seen`: 活躍時間範圍 / Activity timeframe.
-    - `active_sources`: 使用過的服務 / Services used.
-    - `primary_activities`: 最頻繁的動作 / Most frequent actions.
-    - `active_days`: 活躍天數 / Days active.
+### 2. 日誌正規化 (Log Normalization) - `normalize_logs.py`
+將分散的原始日誌整合，產出以下策略檔案於 `result/`：
+- **時間軸策略 (Timeline Strategy)**: 統合所有事件至單一時間線。
+- **使用者行為策略 (User Activity Strategy)**: 以使用者為中心，彙整其數位足跡。
+
+### 3. 資安威脅分析 (Security Threat Analysis) - `analyze_logs.py`
+自動化偵測腳本，結果存放於 `result/`：
+- **初始入侵偵測**: 電子郵件惡意附件篩選、暴力破解統計。
+- **執行與持續性監控**: 異常程序執行、程序偽裝行為辨識。
+- **流量與連線異常**: DNS 心跳信號偵測、資料外洩量化。
+- **目標行為分析**: 敏感檔案存取監控。
+
+## 目錄結構 / Directory Structure
+- `RAW_DATA/`: 存放原始 CSV 日誌檔案。
+- `result/`: 所有分析結果與報表 (已加入 `.gitignore`)。
+- `main.py`: **整合執行進入點**。
+- `analyze_logs.py`: 核心資安分析邏輯。
+- `normalize_logs.py`: 日誌格式統一與摘要邏輯。
+- `Analyze_Strategy.md`: 詳細的分析清單與實作進度。
 
 ## 環境需求 / Requirements
 - Python 3.x
@@ -34,10 +34,13 @@ This project provides a Python script to normalize system logs based on differen
 
 ## 使用方法 / Usage
 1. 將原始 CSV 日誌檔案放入 `RAW_DATA/` 目錄中。
-   Place raw CSV log files in the `RAW_DATA/` directory.
-2. 執行 / Run: `python normalize_logs.py`
-3. 獲取結果檔 / Get output files.
+2. 執行全量分析：
+   ```bash
+   python main.py
+   ```
+3. 前往 `result/` 資料夾查看產出的 10 項分析報表。
 
 ## 驗證資訊 / Validation
-- 總日誌筆數 / Total logs: 108,000.
-- 使用者總數 / Total users: 14.
+- **總日誌處理量**: 108,000+ 筆
+- **偵測範圍**: 涵蓋 Email, Auth, DNS, Endpoint, Firewall, Netflow, File, USB 等 8 類日誌。
+- **分析產出**: 包含威脅清單、行為統計與流量摘要等 10 項報表。
