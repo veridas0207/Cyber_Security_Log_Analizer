@@ -20,10 +20,14 @@ def main():
     print("   Analysis Summary")
     print("====================================================")
     if os.path.exists('result'):
-        results = os.listdir('result')
-        print(f"Total report files generated: {len(results)}")
-        for file in results:
-            print(f" - result/{file}")
+        report_files = []
+        for root, _, files in os.walk('result'):
+            for file in files:
+                report_files.append(os.path.join(root, file))
+
+        print(f"Total report files generated: {len(report_files)}")
+        for path in sorted(report_files):
+            print(f" - {path}")
     else:
         print("[Error] result directory not found.")
     print("====================================================")
